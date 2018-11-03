@@ -4,9 +4,9 @@ import game_of_life.signal.Var
 import game_of_life.view.{Draw, DrawMode, DrawModes}
 
 object Board {
-
   private val NORMAL = Draw(DrawModes.NORMAL, Array[Array[Int]]())
   val draw = Var(NORMAL)
+  val tickRate = new Var(300)
 
   val grid = Var(Grid(Array(1, 0, 0, 0, 0,
     0, 1, 1, 0, 0,

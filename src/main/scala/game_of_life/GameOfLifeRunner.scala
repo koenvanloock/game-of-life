@@ -11,6 +11,8 @@ import scalafx.geometry.Insets
 import scalafx.scene.Scene
 import scalafx.scene.control.{Button, TextField}
 import view.Shapes._
+
+import scalafx.scene.image.{Image, ImageView}
 import scalafx.scene.layout._
 
 object GameOfLifeRunner extends JFXApp {
@@ -23,10 +25,16 @@ object GameOfLifeRunner extends JFXApp {
   private val dimensionsPane = new HBox()
   private val widthBox = new TextField()
   private val heightBox = new TextField()
+  private val tickRateBox = new TextField()
 
+  val gliderImage = new Image(getClass.getResourceAsStream("/glider.jpg"))
+  val oneLineInfinityImage = new Image(getClass.getResourceAsStream("/onelineinfinity.png"))
+  val gliderGunImage = new Image(getClass.getResourceAsStream("/gliderGun.png"))
   widthBox.setMaxWidth(80)
   heightBox.setMaxWidth(80)
+  tickRateBox.setMaxWidth(160)
 
+  tickRateBox.text.onChange((_, _, newVal) => Board.tickRate.update(inputToNumber(newVal, 1000)))
   widthBox.text.onChange((_, _, newVal) => Board.updateWidth(inputToNumber(newVal, 800)))
   heightBox.text.onChange((_, _, newVal) => Board.updateHeight(inputToNumber(newVal, 600)))
 
@@ -45,11 +53,23 @@ object GameOfLifeRunner extends JFXApp {
   private val clearButton = new Button("Clear")
   clearButton.setOnMouseClicked(_ => Board.clear)
 
-  private val placeGliderButton = new Button("Glider"){
+
+  private val placeGliderButton = new Button("Glider", new ImageView(gliderImage)){
+
     onMouseClicked = _ => Board.drawing(DrawModes.STAMPING, GLIDER)
   }
 
-  buttons.children.addAll(playButton, pauseButton, clearButton, placeGliderButton, dimensionsPane)
+  private val placeOneLineInfinityButton = new Button("One line infinity", new ImageView(oneLineInfinityImage)){
+
+    onMouseClicked = _ => Board.drawing(DrawModes.STAMPING, ONE_LINE_INFINITY)
+  }
+
+  private val placeGliderGunButton = new Button("Glider gun", new ImageView(gliderGunImage)){
+
+    onMouseClicked = _ => Board.drawing(DrawModes.STAMPING, GLIDER_GUN)
+  }
+
+  buttons.children.addAll(playButton, pauseButton, clearButton, placeGliderButton, placeOneLineInfinityButton, placeGliderGunButton, dimensionsPane, tickRateBox)
 
   stage = new PrimaryStage {
     scene = new Scene {
@@ -73,7 +93,7 @@ object GameOfLifeRunner extends JFXApp {
     val task = new TimerTask() {
       override def run(): Unit = Board.step
     }
-    timer.scheduleAtFixedRate(task, 0, 300)
+    timer.scheduleAtFixedRate(task, 0, Board.tickRate())
   }
 
 }
