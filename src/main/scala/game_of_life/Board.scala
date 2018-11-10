@@ -7,12 +7,7 @@ object Board {
   private val NORMAL = Draw(DrawModes.NORMAL, Array[Array[Int]]())
   val draw = Var(NORMAL)
   val tickRate = new Var(300)
-
-  val grid = Var(Grid(Array(1, 0, 0, 0, 0,
-    0, 1, 1, 0, 0,
-    1, 1, 0, 0, 0,
-    0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0), 5, 5))
+  val grid = Var(Grid(Array(0), 1, 1))
 
 
   def generateArray(old: Array[Int], width: Int, height: Int): Array[Int] = {
