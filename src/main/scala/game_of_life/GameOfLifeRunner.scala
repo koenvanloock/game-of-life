@@ -13,6 +13,7 @@ import scalafx.scene.control.{Button, TextField}
 import scalafx.scene.layout._
 
 object GameOfLifeRunner extends JFXApp {
+  private val MIN_SQUARE_WIDTH = 4
   private val DEFAULT_WIDTH = "88"
   private val DEFAULT_HEIGHT = "66"
   private val DEFAULT_RATE = "50"
@@ -70,7 +71,9 @@ object GameOfLifeRunner extends JFXApp {
 
   def inputToNumber(text: String, canvasDimension: Int): Int = Try {
     val number = text.toInt
-    if (number < 1) 1 else if (number > canvasDimension / 4) canvasDimension / 4 else number
+    if (number < 1) 1 else {
+      if (number > canvasDimension / MIN_SQUARE_WIDTH) canvasDimension / MIN_SQUARE_WIDTH else number
+    }
   }.toOption.getOrElse(1)
 
   private def task(): Unit = {

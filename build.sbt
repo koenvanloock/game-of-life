@@ -10,6 +10,7 @@ resourceDirectory in Compile := baseDirectory.value / "resources"
 
 libraryDependencies ++= Seq(
   "org.scalafx" %% "scalafx" % "8.0.144-R12",
+  "com.jfoenix" % "jfoenix" % "9.0.1",
   "org.specs2" %% "specs2-core" % "4.3.5" % Test,
   "org.specs2" %% "specs2-junit" % "4.3.5" % Test,
   "org.scalatest" %% "scalatest" % "3.0.5" % Test,
