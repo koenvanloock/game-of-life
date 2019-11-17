@@ -2,7 +2,10 @@ package game_of_life
 
 import java.util.{Timer, TimerTask}
 
+import com.jfoenix.controls.JFXButton
+import de.jensd.fx.glyphs.fontawesome.{FontAwesomeIcon, FontAwesomeIconView}
 import game_of_life.view.{GameOfLifeCanvas, ImageButton, Shapes}
+import javafx.collections.ObservableList
 
 import scala.util.Try
 import scalafx.application.JFXApp
@@ -41,24 +44,36 @@ object GameOfLifeRunner extends JFXApp {
 
   buttons.style = "-fx-background-color: #336699"
   buttons.padding = Insets(25)
-  private val playButton = new Button("Play") {
-    onMouseClicked = _ => task()
-  }
+  private val playButton = new JFXButton()
+  val play = new FontAwesomeIconView(FontAwesomeIcon.PLAY)
+  playButton.setGraphic(play)
+  playButton.onMouseClickedProperty().setValue(_ => task())
 
-  private val pauseButton = new Button("Pauze") {
-    onMouseClicked = _ => timer.cancel()
-  }
+  private val pauseButton = new JFXButton()
+  val pause = new FontAwesomeIconView(FontAwesomeIcon.PAUSE)
+  pauseButton.onMouseClickedProperty().setValue( _ => timer.cancel())
+  pauseButton.setGraphic(pause)
 
-  private val clearButton = new Button {
-    text = "Clear"
-    onMouseClicked = _ => Board.clear
-  }
+  private val clearButton = new JFXButton()
+  val clear = new FontAwesomeIconView(FontAwesomeIcon.TRASH)
+  clearButton.onMouseClickedProperty().setValue(_ => Board.clear)
+  clearButton.setGraphic(clear)
 
-  buttons.children.addAll(playButton, pauseButton, clearButton, dimensionsPane, tickRateBox)
+  val orchestrationbuttons = new HBox(20)
+  orchestrationbuttons.children.addAll(playButton, pauseButton, clearButton)
+
+  buttons.children.addAll(
+    orchestrationbuttons,
+    dimensionsPane,
+    tickRateBox)
   Shapes.all().map(new ImageButton(_)).map(buttons.children.add(_))
 
   stage = new PrimaryStage {
     scene = new Scene {
+      stylesheets = List(
+        getClass.getResource("/css/jfoenix-fonts.css").toExternalForm,
+        getClass.getResource("/css/jfoenix-design.css").toExternalForm,
+        getClass.getResource("/css/main.css").toExternalForm)
       root = new BorderPane {
         padding = Insets(0)
         center = canvas
