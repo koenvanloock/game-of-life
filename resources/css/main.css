@@ -3,3 +3,14 @@
     -fx-background-color: white;
     -fx-text-fill: black;
 }
+
+.jfx-text-field
+{
+    -jfx-focus-color: #fffd8c;
+    /*-jfx-unfocus-color: #fffd8c; doesn't work*/
+}
+
+.text-field
+{
+    -fx-text-fill: #fffd8c; /*Yellow - input color*/
+}

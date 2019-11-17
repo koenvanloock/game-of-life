@@ -1,12 +1,11 @@
 package game_of_life.view
 
-import game_of_life.{Board, Grid}
 import game_of_life.signal.Signal
-
+import game_of_life.{Board, Grid}
+import scalafx.Includes._
 import scalafx.scene.canvas.Canvas
 import scalafx.scene.input.MouseEvent
 import scalafx.scene.paint.Color
-import scalafx.Includes._
 
 class GameOfLifeCanvas(width: Int, height: Int) extends Canvas(width, height) {
 
